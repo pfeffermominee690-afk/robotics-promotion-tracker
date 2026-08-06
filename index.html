@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="面向机器人工程本科生的 985 高校夏令营与预推免官方通知看板。"
+    />
+    <meta name="theme-color" content="#123f3b" />
+    <title>机器人工程保研信息看板</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#notice-list">跳到通知列表</a>
+
+    <header class="site-header">
+      <div class="header-bar page-shell">
+        <a class="brand" href="./" aria-label="机器人工程保研信息看板首页">
+          <span class="brand-mark" aria-hidden="true">R</span>
+          <span>机器人工程 · 推免信息</span>
+        </a>
+        <span class="cycle-badge">2027 推免周期</span>
+      </div>
+
+      <div class="hero page-shell">
+        <div class="hero-copy">
+          <p class="eyebrow">985 高校官方通知聚合</p>
+          <h1>机器人工程保研信息看板</h1>
+          <p class="hero-description">
+            聚焦机器人、控制、自动化、机械、人工智能等相关方向，只收录经过核验的高校官方通知。
+          </p>
+        </div>
+
+        <aside class="verification-panel" aria-label="数据核验信息">
+          <div class="verification-icon" aria-hidden="true">✓</div>
+          <div>
+            <span class="meta-label">最后核验时间</span>
+            <strong id="last-verified">正在读取数据…</strong>
+            <span id="verified-count" class="meta-note">请稍候</span>
+          </div>
+        </aside>
+      </div>
+    </header>
+
+    <main class="page-shell">
+      <section class="stats-grid" aria-label="通知概览">
+        <article class="stat-card">
+          <span class="stat-label">全部通知</span>
+          <strong id="stat-total" class="stat-value">—</strong>
+          <span class="stat-caption">条已核验记录</span>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">夏令营</span>
+          <strong id="stat-camp" class="stat-value">—</strong>
+          <span class="stat-caption">2026 年发布</span>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">预推免</span>
+          <strong id="stat-pre" class="stat-value">—</strong>
+          <span class="stat-caption">面向 2027 级</span>
+        </article>
+        <article class="stat-card stat-card-accent">
+          <span class="stat-label">当前可申请</span>
+          <strong id="stat-open" class="stat-value">—</strong>
+          <span class="stat-caption">报名中或即将截止</span>
+        </article>
+      </section>
+
+      <section class="control-panel" aria-labelledby="filter-heading">
+        <div class="control-heading-row">
+          <div>
+            <p class="section-kicker">检索与筛选</p>
+            <h2 id="filter-heading">快速定位合适项目</h2>
+          </div>
+          <button id="reset-filters" class="text-button" type="button">重置筛选</button>
+        </div>
+
+        <div class="search-grid">
+          <label class="field">
+            <span class="field-label">学校搜索</span>
+            <span class="input-wrap">
+              <span class="search-symbol" aria-hidden="true"></span>
+              <input
+                id="school-search"
+                type="search"
+                placeholder="输入高校名称"
+                autocomplete="off"
+              />
+            </span>
+          </label>
+          <label class="field">
+            <span class="field-label">学院搜索</span>
+            <span class="input-wrap">
+              <span class="search-symbol" aria-hidden="true"></span>
+              <input
+                id="college-search"
+                type="search"
+                placeholder="输入学院名称"
+                autocomplete="off"
+              />
+            </span>
+          </label>
+          <label class="field sort-field">
+            <span class="field-label">排序方式</span>
+            <span class="select-wrap">
+              <select id="sort-select">
+                <option value="deadline-asc">报名截止时间优先</option>
+                <option value="match-desc">机器人工程匹配度优先</option>
+                <option value="publish-desc">发布时间最新优先</option>
+              </select>
+            </span>
+          </label>
+        </div>
+
+        <div class="filter-rows">
+          <fieldset class="filter-group">
+            <legend>通知类型</legend>
+            <div class="segmented-control" id="category-filters">
+              <button class="filter-button is-active" type="button" data-value="全部" aria-pressed="true">全部</button>
+              <button class="filter-button" type="button" data-value="夏令营" aria-pressed="false">夏令营</button>
+              <button class="filter-button" type="button" data-value="预推免" aria-pressed="false">预推免</button>
+            </div>
+          </fieldset>
+
+          <fieldset class="filter-group status-filter-group">
+            <legend>报名状态</legend>
+            <div class="segmented-control" id="status-filters">
+              <button class="filter-button is-active" type="button" data-value="全部" aria-pressed="true">全部</button>
+              <button class="filter-button" type="button" data-value="报名中" aria-pressed="false">报名中</button>
+              <button class="filter-button" type="button" data-value="即将截止" aria-pressed="false">即将截止</button>
+              <button class="filter-button" type="button" data-value="已截止" aria-pressed="false">已截止</button>
+              <button class="filter-button" type="button" data-value="待发布" aria-pressed="false">待发布</button>
+            </div>
+          </fieldset>
+        </div>
+      </section>
+
+      <section class="results-section" aria-labelledby="results-heading">
+        <div class="results-heading-row">
+          <div>
+            <p class="section-kicker">通知列表</p>
+            <h2 id="results-heading">符合条件的项目</h2>
+          </div>
+          <p id="results-summary" class="results-summary" aria-live="polite">正在读取…</p>
+        </div>
+
+        <div id="loading-state" class="state-panel" role="status">
+          <span class="loading-dot" aria-hidden="true"></span>
+          正在加载已核验通知
+        </div>
+
+        <div id="error-state" class="state-panel error-state" hidden>
+          <strong>数据暂时无法加载</strong>
+          <span>请通过本地服务器或 GitHub Pages 访问，并确认 data/notices.json 存在。</span>
+        </div>
+
+        <div id="notice-list" class="notice-list" aria-live="polite"></div>
+
+        <div id="empty-state" class="empty-state" hidden>
+          <span class="empty-mark" aria-hidden="true">暂无</span>
+          <h3 id="empty-title">暂未收录通知</h3>
+          <p id="empty-message">等待录入首批经过官方正文核验的通知。</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="page-shell footer-content">
+        <div>
+          <strong>机器人工程保研信息看板</strong>
+          <p>信息仅作申请线索整理，请以各高校官方通知正文为准。</p>
+        </div>
+        <a href="#filter-heading">返回筛选区 ↑</a>
+      </div>
+    </footer>
+
+    <noscript>
+      <div class="noscript-message">本看板需要启用 JavaScript 才能加载和筛选通知。</div>
+    </noscript>
+  </body>
+</html>
