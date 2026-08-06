@@ -184,10 +184,15 @@ def validate_record(record: Any, index: int, report: Report, seen_ids: set[str],
         report.error(f"[{record_id}] 待发布记录的 deadline 应为空字符串")
 
     title_years = set(re.findall(r"20\d{2}", record["title"])) if isinstance(record["title"], str) else set()
-    expected_title_year = "2026" if record["category"] == "夏令营" else "2027"
-    if title_years and expected_title_year not in title_years:
+    expected_title_years = (
+        {"2026", str(record["admissionYear"])}
+        if record["category"] == "夏令营"
+        else {str(record["admissionYear"])}
+    )
+    if title_years and title_years.isdisjoint(expected_title_years):
         report.error(
-            f"[{record_id}] 标题年份 {', '.join(sorted(title_years))} 与{record['category']}周期不一致，预期包含 {expected_title_year}"
+            f"[{record_id}] 标题年份 {', '.join(sorted(title_years))} 与{record['category']}周期不一致，"
+            f"预期包含 {', '.join(sorted(expected_title_years))} 之一"
         )
 
     expected = expected_status(record, date.today())
